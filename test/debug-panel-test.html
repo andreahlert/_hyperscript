@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Debug Panel Test</title>
+    <script src="../src/_hyperscript.js"></script>
+    <script src="../src/debug-panel.js"></script>
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            max-width: 640px;
+            margin: 40px auto;
+            padding: 0 20px;
+            color: #1a1a2e;
+        }
+        h1 { font-size: 1.4em; }
+        button {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid #c5cad3;
+            background: #f8f9fc;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 4px;
+        }
+        button:hover { background: #e8ecf1; }
+        .counter { font-size: 2em; font-weight: bold; margin: 16px 0; }
+        .output { padding: 12px; background: #f1f5f9; border-radius: 6px; margin: 8px 0; min-height: 40px; }
+        section { margin: 24px 0; padding: 16px; border: 1px solid #e2e8f0; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h1>_hyperscript Debug Panel Test</h1>
+    <p>The debug panel should appear in the bottom-right corner.</p>
+
+    <section>
+        <h2>Counter (with breakpoint)</h2>
+        <div class="counter" id="count">0</div>
+        <button _="on click
+            breakpoint
+            set #count's textContent to (#count's textContent as Int) + 1
+        ">Increment (breakpoint)</button>
+        <button _="on click
+            set #count's textContent to (#count's textContent as Int) - 1
+        ">Decrement</button>
+    </section>
+
+    <section>
+        <h2>Toggle class</h2>
+        <div id="box" style="width:100px;height:100px;background:#2563eb;border-radius:8px;transition:all .3s"></div>
+        <button _="on click toggle .rounded on #box" >Toggle rounded</button>
+        <style>.rounded { border-radius: 50%; }</style>
+    </section>
+
+    <section>
+        <h2>Trigger error</h2>
+        <button _="on click call nonExistentFunction()">Trigger error</button>
+        <p><small>Check the Log tab for the exception entry.</small></p>
+    </section>
+
+    <section>
+        <h2>Fetch test</h2>
+        <div class="output" id="fetch-output">Click to fetch</div>
+        <button _="on click
+            fetch https://httpbin.org/get as json
+            put it.url into #fetch-output
+        ">Fetch URL</button>
+    </section>
+</body>
+</html>
